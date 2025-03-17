@@ -8,10 +8,7 @@ import com.example.oauth.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +19,11 @@ import java.util.Map;
 public class MemberController {
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @GetMapping("/health-check")
+    public ResponseEntity<?> healthCheck() {
+        return new ResponseEntity<>("ok", HttpStatus.OK);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<?> memberCreate(@RequestBody MemberCreateDto memberCreateDto) {
@@ -38,6 +40,7 @@ public class MemberController {
 
         Map<String, Object> loginInfo = new HashMap<>();
         loginInfo.put("token", jwtToken);
+        loginInfo.put("id", member.getId());
 
         return new ResponseEntity<>(loginInfo, HttpStatus.OK);
 
