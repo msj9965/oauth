@@ -39,7 +39,12 @@ public class SecurityConfig {
                 .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //특정 url 패턴에 대해서는 인증처리(Authentication)를 제외
                 .authorizeHttpRequests(
-                        a->a.requestMatchers("/member/create", "/member/dologin")
+                        a->a.requestMatchers(
+                                "/member/create",
+                                        "/member/login",
+                                        "/member/google/login",
+                                        "/member/kakao/login"
+                                )
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
